@@ -1,0 +1,9 @@
+SELECT *
+FROM app_store_apps
+INNER JOIN play_store_apps
+USING(name);
+
+--553 apps are in both stores
+
+SELECT *
+FROM play_store_apps;
