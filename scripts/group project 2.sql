@@ -10,5 +10,15 @@ ON a.name = p.name
 GROUP BY p.genres
 ORDER BY name DESC
 Limit 10;
-select a.name, p.name
-(AVG(a.rating + p.rating)/2) as overall_avg_ratings, sum(casta.review_count as int) + p.review_count
+
+SELECT count(a.name) as name, p.price
+FROM app_store_apps AS a
+INNER JOIN play_store_apps AS p
+ON a.name = p.name
+GROUP BY p.price
+ORDER BY name DESC
+Limit 10;
+
+SELECT name, price, install_count, rating
+from play_store_apps
+where price Between and rating >='4.75' and install_count > '1000000';
