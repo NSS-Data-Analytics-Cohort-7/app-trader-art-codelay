@@ -31,7 +31,6 @@ p.review_count AS play_store
 FROM app_store_apps AS a
 INNER JOIN play_store_apps AS p 
 ON a.name = p.name
-WHERE a.rating = p.rating
 GROUP BY a.name,p.name,a.rating,p.rating,a.review_count,p.review_count
 ORDER BY a.rating DESC;
 
