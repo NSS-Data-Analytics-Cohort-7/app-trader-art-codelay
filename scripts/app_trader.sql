@@ -48,15 +48,58 @@ FROM play_store_apps
 ORDER BY rating DESC, review_count DESC, content_rating DESC
 LIMIT 10;
 
-SELECT content_rating, COUNT (content_rating), 
-    CASE
-        WHEN content_rating = '9+' THEN 'Pre-Teen+'
-        WHEN content_rating = '17+' THEN 'Adults Only'
-        WHEN content_rating = '12+' THEN 'Teen+'
-        WHEN content_rating = '4+' THEN 'Everyone'
-FROM app_store_apps
-GROUP BY content_rating
-UNION ALL
-SELECT content_rating, COUNT(content_rating)
-FROM play_store_apps
-GROUP BY content_rating; 
+WITH apple AS (
+    SELECT COUNT (content_rating), 
+        CASE
+            WHEN content_rating = '9+' THEN 'Pre-Teen+'
+            WHEN content_rating = '17+' THEN 'Adults Only'
+            WHEN content_rating = '12+' THEN 'Teen+'
+            WHEN content_rating = '4+' THEN 'Everyone'
+            END AS apple_content_rating
+    FROM app_store_apps AS a
+    GROUP BY content_rating),
+        
+google AS (
+    SELECT COUNT(content_rating),
+        CASE
+            WHEN content_rating = 'Everyone 10+' THEN 'Pre-Teen+'
+            WHEN content_rating = 'Teen' THEN 'Teen+'
+            WHEN content_rating = 'Everyone' THEN 'Everyone'
+            WHEN content_rating = 'Adults Only 18+' THEN 'Adults Only'
+            WHEN content_rating = 'Mature 17+' THEN 'Adults Only'
+            WHEN content_rating = 'Unrated' THEN 'NULL'
+            END AS play_content_rating
+    FROM play_store_apps AS p
+    GROUP BY content_rating)
+    
+SELECT SUM(COUNT(p.content_rating)+COUNT(apple_content_rating))
+FROM google
+JOIN apple
+ON google.play_content_rating = apple.apple_content_rating;
+    
+
+
+SELECT COUNT (content_rating), 
+        CASE
+            WHEN content_rating = '9+' THEN 'Pre-Teen+'
+            WHEN content_rating = '17+' THEN 'Adults Only'
+            WHEN content_rating = '12+' THEN 'Teen+'
+            WHEN content_rating = '4+' THEN 'Everyone'
+            WHEN content_rating = 'Everyone 10+' THEN 'Pre-Teen+'
+            WHEN content_rating = 'Teen' THEN 'Teen+'
+            WHEN content_rating = 'Everyone' THEN 'Everyone'
+            WHEN content_rating = 'Adults Only 18+' THEN 'Adults Only'
+            WHEN content_rating = 'Mature 17+' THEN 'Adults Only'
+            WHEN content_rating = 'Unrated' THEN 'NULL'
+            END AS grouped_content_rating
+    FROM app_store_apps
+    JOIN play_store_apps
+    USING(name)
+    GROUP BY grouped_content_rating
+    ORDER BY grouped_content_rating DESC;
+    
+SELECT a.content_rating, p.content_rating, COUNT (DISTINCT a.content_rating), COUNT (DISTINCT p.content_rating)
+FROM app_store_apps AS a
+JOIN play_store_apps AS p
+USING(name)
+GROUP BY a.content_rating, p.content_rating; 
