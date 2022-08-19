@@ -51,13 +51,19 @@ GROUP BY p.genres
 ORDER BY count DESC
 Limit 10;
 
+-- File size for the top 10 and how it relates to download count
+
+Select name,
+REPLACE(size, 'M', '') as Size_MB
+from play_store_apps as p
+Left Join app_store_apps as a
+on p
 
 
-
-
-
-
-
+Select name,
+ (select (cast(size_bytes as int) / 1000000)
+from app_store_apps) as size_mb
+from app_store_apps
 
 
 
