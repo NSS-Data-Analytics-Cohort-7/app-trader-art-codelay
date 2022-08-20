@@ -134,7 +134,19 @@ ON a.name = p.name -- matched on name from both
 WHERE a.price <= 1 AND a.rating >= 4.5 AND p.rating >= 4.5 -- filterd by price equal and less than 1 and where rating greated and equal to 4.5
 GROUP BY a.review_count, a.rating, p.rating, a.name,  a.primary_genre, p.genres,a.price
 ORDER BY total_review_counts DESC --orded by total review in desc order
-Limit 10; --top 10
+Limit 10--top 10
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
