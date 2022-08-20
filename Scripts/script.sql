@@ -4,11 +4,12 @@ inner join play_store_apps as p
 on a.name = p.name;
 
 ---This shows the number of apps per genre, sorted from greatest to smallest.
-SELECT count(a.name) as count, p.genres
+SELECT COUNT(a.name) as count, a.name, p.genres
 FROM app_store_apps AS a
 INNER JOIN play_store_apps AS p
 ON a.name = p.name
-GROUP BY p.genres
+WHERE p.rating >= 4.5
+GROUP BY p.genres, a.name
 ORDER BY count DESC
 Limit 10;
 
