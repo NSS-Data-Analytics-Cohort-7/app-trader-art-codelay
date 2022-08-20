@@ -44,8 +44,30 @@ limit 10;
  CAST(review_count as int)
  FROM app_store_apps
  WHERE CAST (review_count as int) > 750000
+ ORDER BY rating DESC
+ limit 10;
+ 
+ SELECT
+ name,
+ rating,
+ CAST(review_count as int)
+ FROM app_store_apps
+ WHERE CAST (review_count as int) > 750000
  ORDER BY review_count DESC
  limit 10;
+ 
+ SELECT
+ name,
+ rating,
+ price, 
+ CAST(review_count as int),
+CAST(price as int)
+FROM app_store_apps
+WHERE CAST (price as int) > 4.99
+WHERE CAST (review_count as int) > 750000
+ ORDER BY review_count DESC
+ limit 10;
+
  
 
 
