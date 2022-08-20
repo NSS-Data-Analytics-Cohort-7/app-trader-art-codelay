@@ -51,6 +51,7 @@ ORDER BY rating DESC, review_count DESC, content_rating DESC
 LIMIT 10;
 
 --Two CTEs to combine content ratings from both tables into combined buckets of content ratings
+
 WITH apple AS (
     SELECT COUNT (content_rating) AS apple_count, 
         CASE
@@ -81,4 +82,3 @@ FROM google
 JOIN apple
 ON google.play_content_rating = apple.apple_content_rating
 ORDER BY combined_count DESC;
-    
