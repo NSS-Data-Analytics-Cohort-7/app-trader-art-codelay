@@ -28,6 +28,38 @@ GROUP BY a.name, p.name
 ORDER BY overall_review_counts DESC
 LIMIT 10;
 
+--Bottom 10 apps with lowest review counts
+
+SELECT a.name, p.name, 
+    (AVG(a.rating + p.rating)/2) AS overall_avg_ratings, SUM(CAST(a.review_count AS int) + p.review_count) AS overall_review_counts
+FROM app_store_apps AS a
+INNER JOIN play_store_apps AS p
+USING (name)
+GROUP BY a.name, p.name
+ORDER BY overall_review_counts
+LIMIT 10;
+
+--Top 10 by average ratings
+SELECT a.name, p.name, 
+    (AVG(a.rating + p.rating)/2) AS overall_avg_ratings
+FROM app_store_apps AS a
+INNER JOIN play_store_apps AS p
+USING (name)
+GROUP BY a.name, p.name
+ORDER BY overall_avg_ratings DESC
+LIMIT 10;
+
+--Bottom 10 by average ratings
+
+SELECT a.name, p.name, 
+    (AVG(a.rating + p.rating)/2) AS overall_avg_ratings
+FROM app_store_apps AS a
+INNER JOIN play_store_apps AS p
+USING (name)
+GROUP BY a.name, p.name
+ORDER BY overall_avg_ratings
+LIMIT 10;
+
 --From Tim / Drew Top 10 genres
 
 SELECT COUNT(a.name) AS count, p.genres
